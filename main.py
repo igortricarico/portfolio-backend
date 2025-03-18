@@ -1,8 +1,15 @@
 from fastapi import FastAPI
 from routers import todolist
 from fastapi.middleware.cors import CORSMiddleware
+from database import init_db
+from contextlib import asynccontextmanager
 
-app = FastAPI()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    init_db()
+    yield
+
+app = FastAPI(lifespan=lifespan)
 
 app.include_router(todolist.router, prefix="/tasks")
 app.add_middleware(
