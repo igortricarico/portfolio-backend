@@ -12,7 +12,7 @@ def init_db():
     cursor = conn.cursor()
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS tasks (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            task_id INTEGER PRIMARY KEY AUTOINCREMENT,
             description TEXT NOT NULL,
             category TEXT NOT NULL
         )
@@ -42,13 +42,13 @@ def delete_task(task_id: int):
     conn = get_db()
     cursor = conn.cursor()
 
-    cursor.execute('SELECT id FROM tasks WHERE id = ?', (task_id,))
+    cursor.execute('SELECT task_id FROM tasks WHERE task_id = ?', (task_id,))
     task = cursor.fetchone()
     if task is None:
         conn.close()
         return False
     
-    cursor.execute('DELETE FROM tasks WHERE id = ?', (task_id,))
+    cursor.execute('DELETE FROM tasks WHERE task_id = ?', (task_id,))
     conn.commit()
     conn.close()
     return True
