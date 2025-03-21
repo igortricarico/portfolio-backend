@@ -9,7 +9,14 @@ async def lifespan(app: FastAPI):
     init_db()
     yield
 
-app = FastAPI(lifespan=lifespan)
+app = FastAPI(
+    title="Backend Portfolio",
+    swagger_ui_parameters={
+        "defaultModelsExpandDepth": -1,
+        "displayRequestDuration": True
+    },
+    version="1.0.0",
+    lifespan=lifespan)
 
 app.include_router(todolist.router, prefix="/tasks")
 app.include_router(category.router, prefix="/categories")
@@ -20,8 +27,3 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=['*'],
     allow_headers=['*'])
-
-# Rota Padrão
-@app.get("/")
-def read_root():
-    return {"message": "Bem-vindo à API"}
