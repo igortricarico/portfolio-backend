@@ -8,8 +8,8 @@ router = APIRouter()
 @router.post("/")
 def create_task_endpoint(task: Task):
     try:
-        id = create_task(task.description, task.category)
-        return {"message": "Tarefa adicionada com sucesso", "task": {"task_id": id, "description": task.description, "category": task.category}}
+        id = create_task(task.description, task.category_id)
+        return {"message": "Tarefa adicionada com sucesso", "task": {"task_id": id, "description": task.description, "category_id": task.category_id}}
     except:    
         return {"message": "Erro ao adicionar tarefa"}
     
